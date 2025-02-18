@@ -1,0 +1,42 @@
+# Utilitzar Ubuntu 24.04 com a base
+FROM ubuntu:24.04
+
+# Instal·lar XFCE, VNC, SSH i altres paquets necessaris
+RUN apt update && apt install -y \
+    xfce4 xfce4-goodies \
+    tightvncserver \
+    openssh-server \
+    sudo \
+    python3 python3-pip \
+    wget curl \
+    dbus-x11 x11-utils \
+    && rm -rf /var/lib/apt/lists/*
+
+
+# Crear un usuari no root per executar el VNC
+RUN useradd -m -s /bin/bash vncuser \
+    && echo "vncuser:vncpassword" | chpasswd \
+    && usermod -aG sudo vncuser
+
+# Definir variables d’entorn per evitar l'error de USER
+ENV USER=vncuser
+ENV HOME=/home/vncuser
+ENV SCREEN_RESOLUTION=1920x1080
+
+# Configurar el servidor VNC
+RUN mkdir -p /home/vncuser/.vnc \
+    && echo "vncpassword" | vncpasswd -f > /home/vncuser/.vnc/passwd \
+    && chmod 600 /home/vncuser/.vnc/passwd \
+    && chown -R vncuser:vncuser /home/vncuser/.vnc
+
+# Copiar l'script d'inici
+COPY startup.sh /startup.sh
+RUN chmod +x /startup.sh
+
+# Exposar ports VNC i SSH
+EXPOSE 5901 22
+
+# Definir el punt d'entrada
+CMD ["/startup.sh"]
+
+
