@@ -1,14 +1,23 @@
-Construir la imatge amb docker build:
-  docker build -t ubuntu-xfce-vnc .
+# Ubuntu XFCE con VNC en Docker
 
-Executar un nou contenidor amb docker run:
-  docker run -d -p 2222:22 -p 5901:5901 --name xfce_vnc_container ubuntu-xfce-vnc
+## Construir la imagen con Docker
+```sh
+docker build -t ubuntu-xfce-vnc .
+```
 
-Connectar-se amb un client VNC:
-  Usa un client VNC (com Remmina o TigerVNC Viewer).
-  Connecta't a localhost:5901
-  Usuari: vncuser
-  Contrasenya: vncpassword
+## Ejecutar un nuevo contenedor con Docker
+```sh
+docker run -d -p 2222:22 -p 5901:5901 --name xfce_vnc_container ubuntu-xfce-vnc
+```
 
-URL pública de dockerhub:
-  https://hub.docker.com/repository/docker/ericitb/ubuntu-xfce-vnc/general
+## Conectarse con un cliente VNC
+Usa un cliente VNC (como **Remmina** o **TigerVNC Viewer**).  
+Conéctate a `localhost:5901`  
+
+**Credenciales:**  
+- **Usuario**: `vncuser`  
+- **Contraseña**: `vncpassword`  
+
+## URL pública de DockerHub
+[ericitb/ubuntu-xfce-vnc](https://hub.docker.com/repository/docker/ericitb/ubuntu-xfce-vnc/general)
+
